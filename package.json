@@ -1,0 +1,23 @@
+{
+  "name": "secret_cli",
+  "bin": {
+    "secret": "./index.js"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/amuuo-dev/secret_cli#readme",
+  "bugs": {
+    "url": "https://github.com/amuuo-dev/secret_cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amuuo-dev/secret_cli.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
