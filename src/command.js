@@ -1,5 +1,20 @@
-import yargs, { argv } from "yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import {
+  getAllSecrets,
+  newSecret,
+  removeSecret,
+  findSecret,
+  removeAllSecrets,
+} from "./secrets.js";
+
+const listSecrets = (secrets) => {
+  secrets.forEach((secret) => {
+    console.log("id: ", secret.id);
+    console.log("tags: ", secret.tags.join(", ")),
+      console.log("secret: ", secret.content);
+  });
+};
 
 yargs(hideBin(process.argv))
   .command(
@@ -11,7 +26,11 @@ yargs(hideBin(process.argv))
         type: "string",
       });
     },
-    async (argv) => {}
+    async (argv) => {
+      const tags = argv.tags ? argv.tags.split(",") : [];
+      const secret = await newSecret(argv.secret, tags);
+      console.log("secret added!", secret.id);
+    }
   )
   .option("tags", {
     alias: "t",
@@ -22,7 +41,10 @@ yargs(hideBin(process.argv))
     "all",
     "get all secrets saved",
     () => {},
-    async (argv) => {}
+    async (argv) => {
+      const data = await getAllSecrets();
+      listSecrets(data);
+    }
   )
   .command(
     "find <filter>",
@@ -34,7 +56,10 @@ yargs(hideBin(process.argv))
           "The search term to filter secret by, will be applied to secret.content",
       });
     },
-    async (argv) => {}
+    async (argv) => {
+      const filter = await findSecret(argv.filter);
+      listSecrets(filter);
+    }
   )
   .command(
     "remove <id>",
@@ -45,7 +70,14 @@ yargs(hideBin(process.argv))
         description: "the id of the secret you want to remove",
       });
     },
-    async (argv) => {}
+    async (argv) => {
+      const id = await removeSecret(argv.id);
+      if (id) {
+        console.log("Secret removed: ", id);
+      } else {
+        console.log("Secret not found");
+      }
+    }
   )
   .command(
     "web [port]",
@@ -63,7 +95,10 @@ yargs(hideBin(process.argv))
     "clean",
     "remove all secrets",
     () => {},
-    async () => {}
+    async () => {
+      await removeAllSecrets();
+      console.log("All secrets removed");
+    }
   )
   .demandCommand(1)
   .parse();

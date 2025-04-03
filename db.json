@@ -1,3 +1,12 @@
 {
-  "secrets": []
+  "secrets": [
+    {
+      "tags": [
+        "important",
+        "personal"
+      ],
+      "content": "My new secret",
+      "id": 1743660273387
+    }
+  ]
 }
