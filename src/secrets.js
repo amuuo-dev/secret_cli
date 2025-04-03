@@ -16,18 +16,19 @@ export const getAllSecrets = async () => {
 };
 
 export const findSecret = async (filter) => {
-  const secrets = await getDB();
+  const secrets = await getAllSecrets();
+
   return secrets.filter((secret) =>
     secret.content.toLowerCase().includes(filter.toLowerCase())
   );
 };
 
 export const removeSecret = async (id) => {
-  const secrets = await getDB();
+  const secrets = await getAllSecrets();
   const match = secrets.find((secret) => secret.id === id);
   if (match) {
-    const newSecret = secrets.filter((secret) => secret.id !== id);
-    await saveDB({ secrets: { newSecret } });
+    const newSecrets = secrets.filter((secret) => secret.id !== id);
+    await saveDB({ secrets: newSecrets });
     return id;
   }
 };
