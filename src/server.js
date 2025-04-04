@@ -23,10 +23,10 @@ const formatSecrets = (secrets) => {
       </div>
         `;
     })
-    .join("/n");
+    .join("\n");
 };
 
-const createServer = async (secrets) => {
+const createServer = (secrets) => {
   return http.createServer(async (req, res) => {
     const HTML_PATH = new URL("./template.html", import.meta.url).pathname;
     const template = await fs.readFile(HTML_PATH, "utf-8");

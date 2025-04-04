@@ -4,33 +4,192 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Whispered Confessions</title>
     <style>
+      :root {
+        --dark-bg: #0c0c17;
+        --card-bg: #12122a;
+        --accent: #1e1e4d;
+        --highlight: #c33c54;
+        --text: #e0e0e0;
+        --tag-bg: #4a2c82;
+        --heading-glow: rgba(195, 60, 84, 0.3);
+      }
+
       body,
       html {
         margin: 0;
         padding: 0;
+        font-family: "Courier New", monospace;
+        background-color: var(--dark-bg);
+        color: var(--text);
+        min-height: 100vh;
+        background-image: radial-gradient(
+            circle at 10% 20%,
+            rgba(30, 30, 77, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(195, 60, 84, 0.1) 0%,
+            transparent 20%
+          );
+      }
+
+      .header {
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 0.3rem;
+        text-transform: uppercase;
+        color: var(--highlight);
+        text-shadow: 0 0 8px var(--heading-glow);
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--highlight),
+          transparent
+        );
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 0.5rem;
+        text-transform: uppercase;
+        opacity: 0.6;
+        margin-top: 0;
+      }
+
+      .notes {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0 20px 40px;
       }
 
       .note {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 6px;
-        padding: 10px;
+        background-color: var(--card-bg);
+        border-left: 3px solid var(--highlight);
+        border-radius: 4px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
       }
+
+      .note::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--highlight);
+      }
+
       .note p {
-        font-size: 24px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 0 1rem 0;
+        position: relative;
+        padding-left: 10px;
       }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 1rem;
+      }
+
       .tag {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 0 10px;
-        padding: 4px;
-        background-color: salmon;
-        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 4px 10px;
+        background-color: var(--tag-bg);
+        border-radius: 12px;
+        color: white;
+        letter-spacing: 0.05rem;
+      }
+
+      @media (max-width: 600px) {
+        .title {
+          font-size: 1.8rem;
+          letter-spacing: 0.2rem;
+        }
+
+        .subtitle {
+          letter-spacing: 0.3rem;
+          font-size: 0.7rem;
+        }
+
+        .notes {
+          padding: 0 15px 30px;
+        }
+
+        .note {
+          padding: 1rem;
+        }
+      }
+
+      .notes:empty::before {
+        content: "The vault is empty... for now";
+        display: block;
+        text-align: center;
+        color: rgba(224, 224, 224, 0.4);
+        padding: 60px 0;
+        font-style: italic;
+        letter-spacing: 0.1rem;
+        font-size: 1.2rem;
+      }
+
+      @keyframes flicker {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          text-shadow: 0 0 8px var(--heading-glow);
+        }
+        20%,
+        22%,
+        24%,
+        55% {
+          text-shadow: 0 0 2px var(--heading-glow);
+        }
+      }
+
+      .title {
+        animation: flicker 8s infinite alternate;
       }
     </style>
   </head>
   <body>
+    <div class="header">
+      <h1 class="title">Whispered Confessions</h1>
+      <p class="subtitle">The Secret Vault</p>
+    </div>
     <div class="notes">{{ secrets }}</div>
   </body>
 </html>
