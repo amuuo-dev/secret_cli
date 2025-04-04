@@ -7,6 +7,7 @@ import {
   findSecret,
   removeAllSecrets,
 } from "./secrets.js";
+import { start } from "./server.js";
 
 const listSecrets = (secrets) => {
   secrets.forEach((secret) => {
@@ -89,7 +90,10 @@ yargs(hideBin(process.argv))
         description: "port to bind on",
       });
     },
-    async () => {}
+    async (argv) => {
+      const secrets = await getAllSecrets();
+      start(secrets, argv.port);
+    }
   )
   .command(
     "clean",
